@@ -46,15 +46,13 @@ form.verify ({
 $('#form_reg'). on('submit',function (e) {
     // 阻止事件自动触发
    e.preventDefault(); 
-
-
    //2. 发起Ajax的POST请求 -提交用户的注册信息
    let data = {
     username : $('#form_reg [name=username]').val(),
     password : $('#form_reg [name=password]').val()
    }
 
-   $.post('http://api-breakingnews-web.itheima.net/api/reguser',data,(res)=>{
+   $.post('/api/reguser',data,(res)=>{
     if (res.status !== 0) {
         return layer.msg(res.message);
     }
@@ -69,11 +67,9 @@ $('#form_reg'). on('submit',function (e) {
 
 
 // 监听登录表单的提交事件。
-$('#form_login'). on('submit',(e)=>{
+$('#form_login').submit(function(e) {
   // 阻止事件自动触发
-  e.preventDefault(); 
-
-
+  e.preventDefault();
 //发起发起Ajax的POST请求 -提交用户的登录信息
 $.ajax({
     url:'/api/login',
@@ -84,10 +80,11 @@ $.ajax({
         if (res.status !== 0) { 
             return layer.msg('登录失败！') 
         } layer.msg('登录成功！') 
+        // console.log(token);
         // 将登录成功得到的 token 字符串，保存到 localStorage 中
-        localStorage('token',res.token);
+        localStorage.setItem('token',res.token);
         // 跳转到后台主页 
-        location.href = '/index.html'
+        location.href = 'index.html';
 }
 })
 })
